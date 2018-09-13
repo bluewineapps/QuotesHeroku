@@ -1,15 +1,11 @@
 {
-  "name": "qandw",
+  "name": "quotesandstatus",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.9.8"
-  },
+  "main": "index.js",
   "scripts": {
-    "start": "node server.js"
-  }
-  
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "midhun",
+  "license": "ISC"
 }
