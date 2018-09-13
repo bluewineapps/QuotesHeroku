@@ -6,6 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "dependencies": {
+    "express": "^4.9.8",
+    "dotenv":"^6.0.0",
+    "pg":"^7.4.3"
+  },
   "author": "midhun",
   "license": "ISC"
 }
