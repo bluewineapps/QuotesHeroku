@@ -24,22 +24,44 @@ exports.wallpaperList=(req,rep)=>{
 
     console.log('--- step 1 inside list ----');
    // rep.send('[ {"wallpaper": {"small": "https://bluewineapps.github.io/wallpapers/small/2s..jpg","medium": "https://bluewineapps.github.io/wallpapers/medium/2m.jpg","large": "https://bluewineapps.github.io/wallpapers/large/2l.jpg"},"id": 2},{"wallpaper": {"small": "https://bluewineapps.github.io/wallpapers/small/1s.jpg","medium": "https://bluewineapps.github.io/wallpapers/medium/1m.jpg","large": "https://bluewineapps.github.io/wallpapers/large/1l.jpg"},"id": 1},{"wallpaper": {"small": "https://bluewineapps.github.io/wallpapers/small/3s.jpg","medium": "https://bluewineapps.github.io/wallpapers/medium/3m.jpg","large": "https://bluewineapps.github.io/wallpapers/large/3l.jpg"},"id": 3},{"wallpaper": {"small": "https://bluewineapps.github.io/wallpapers/small/4s.jpg","medium": "https://bluewineapps.github.io/wallpapers/medium/4m.jpg","large": "https://bluewineapps.github.io/wallpapers/large/4l.jpg"},"id": 4},{"wallpaper": {"small": "https://bluewineapps.github.io/wallpapers/small/5s.jpg","medium": "https://bluewineapps.github.io/wallpapers/medium/5m.jpg","large": "https://bluewineapps.github.io/wallpapers/large/5l.jpg"},"id": 5},{"wallpaper": {"small": "https://bluewineapps.github.io/wallpapers/small/6s.jpg","medium": "https://bluewineapps.github.io/wallpapers/medium/6m.jpg","large": "https://bluewineapps.github.io/wallpapers/large/6l.jpg"},"id": 6},{"wallpaper": {"small": "https://bluewineapps.github.io/wallpapers/small/7s.jpg","medium": "https://bluewineapps.github.io/wallpapers/medium/7m.jpg","large": "https://bluewineapps.github.io/wallpapers/large/7l.jpg"},"id": 7}]');
+  try{
     client.query('SELECT * from wallpapers', (err, res) => {
         console.log('--- step 2 inside list ----');
       
         rep.json(res.rows);
       });
+  }catch(err){
+        console.log(err);
+        badResponse(req,rep);
+  }
+   
 };
 
 exports.wallpaperViewUpdate=(req,rep)=>{
-    let wallpaperId=req.params.id
-    client.query('SELECT * from wallpapers where id = '+wallpaperId, (err, res) => {
-      
-        client.query('Update wallpapers set view ='+(parseInt(res.rows[0].view) +1) +' where id ='+wallpaperId,(req1,res1)=>{
-           console.log("updating vew count for image id ->"+wallpaperId);
-        });  
-        
-    });
 
-    rep.json("1");
+    try{
+        let wallpaperId=req.params.id
+        client.query('SELECT * from wallpapers where id = '+wallpaperId, (err, res) => {
+          
+            if(err==null && res.rows.length >0){
+                client.query('Update wallpapers set view ='+(parseInt(res.rows[0].view) +1) +' where id ='+wallpaperId,(req1,res1)=>{
+                    console.log("updating vew count for image id ->"+wallpaperId);
+                });  
+            }else{
+                console.log("updating vew count failed for image id ->"+wallpaperId);
+            }
+                
+            
+        });
+    
+        rep.json("1");
+    }catch(err){
+        console.log(err);
+        badResponse(req,rep);
+  }
+    
 };
+
+function badResponse( req,rep){
+    rep.json("something went wrong");
+}

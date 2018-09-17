@@ -18,5 +18,5 @@
     //App creation Api
     router.get('/wallpaper',wallpaper.wallpaperList);
     router.get('/wallpaper/:id',wallpaper.wallpaperViewUpdate);
-
+   
     module.exports = router;
