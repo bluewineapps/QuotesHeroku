@@ -27,7 +27,7 @@ exports.wallpaperList=(req,rep)=>{
     client.query('SELECT * from wallpapers', (err, res) => {
         console.log('--- step 2 inside list ----');
       
-        rep.send(res.rows);
+        rep.json(res.rows);
       });
 };
 
@@ -36,8 +36,8 @@ exports.wallpaperViewUpdate=(req,rep)=>{
     client.query('SELECT * from wallpapers where id = 1', (err, res) => {
       
         client.query('Update wallpapers set view ='+(parseInt(res.rows[0].view) +1) +' where id =1',(req1,res1)=>{
-          
+            rep.json(res.rows);
         });  
-        rep.json(res.rows);
+        
     });
 };
