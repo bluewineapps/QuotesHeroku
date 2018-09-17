@@ -33,11 +33,13 @@ exports.wallpaperList=(req,rep)=>{
 
 exports.wallpaperViewUpdate=(req,rep)=>{
     let wallpaperId=req.params.id
-    client.query('SELECT * from wallpapers where id = 1', (err, res) => {
+    client.query('SELECT * from wallpapers where id = '+wallpaperId, (err, res) => {
       
-        client.query('Update wallpapers set view ='+(parseInt(res.rows[0].view) +1) +' where id =1',(req1,res1)=>{
-            rep.json(res.rows);
+        client.query('Update wallpapers set view ='+(parseInt(res.rows[0].view) +1) +' where id ='+wallpaperId,(req1,res1)=>{
+           console.log("updating vew count for image id ->"+wallpaperId);
         });  
         
     });
+
+    rep.json("1");
 };
